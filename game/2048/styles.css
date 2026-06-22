@@ -1,0 +1,173 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html, body {
+    font-family: Arial, sans-serif;
+    background-color: #faf8ef;
+    width: 100vw;
+    height: 100vh;
+    overflow: hidden;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+}
+
+.game-container {
+    background-color: #bbada0;
+    padding: 15px;
+    border-radius: 6px;
+    width: 100vw;
+    max-width: 500px;
+    box-shadow: 0 0 3px 2px rgba(0, 0, 0, 0.1);
+    margin: 0 auto;
+}
+
+.score-container {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.score-label {
+    color: #eee4da;
+    font-size: 18px;
+}
+
+#score {
+    color: #776e65;
+    font-size: 32px;
+    font-weight: bold;
+}
+
+.grid-container {
+    position: relative;
+    background-color: #ccc0b3;
+    border-radius: 6px;
+    padding: 15px;
+    display: grid;
+    grid-template-columns: repeat(4, 100px);
+    grid-template-rows: repeat(4, 100px);
+    gap: 15px;
+}
+
+.grid-cell {
+    background-color: rgba(238, 228, 218, 0.35);
+    border-radius: 3px;
+    position: relative;
+}
+
+.tile {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    border-radius: 3px;
+    font-size: 55px;
+    font-weight: bold;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: transform 0.3s ease;
+}
+
+#restart-button {
+    width: 100%;
+    padding: 15px;
+    background-color: #8f7a66;
+    border: none;
+    border-radius: 3px;
+    color: white;
+    font-size: 18px;
+    cursor: pointer;
+    margin-top: 20px;
+    transition: background-color 0.2s;
+}
+
+#restart-button:hover {
+    background-color: #9e8a76;
+}
+
+/* Tile colors */
+.tile-2 { background: #eee4da; color: #776e65; }
+.tile-4 { background: #ede0c8; color: #776e65; }
+.tile-8 { background: #f2b179; color: white; }
+.tile-16 { background: #f59563; color: white; }
+.tile-32 { background: #f67c5f; color: white; }
+.tile-64 { background: #f65e3b; color: white; }
+.tile-128 { background: #edcf72; color: white; }
+.tile-256 { background: #edcc61; color: white; }
+.tile-512 { background: #edc850; color: white; }
+.tile-1024 { background: #edc53f; color: white; }
+.tile-2048 { background: #edc22e; color: white; }
+
+.controls {
+    width: 100vw;
+    text-align: center;
+    position: fixed;
+    left: 0;
+    bottom: 0;
+    padding-bottom: 24px;
+    font-size: 16px;
+    color: #776e65;
+    background: none;
+    z-index: 10;
+}
+
+/* Messages */
+.message-box {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: rgba(255, 255, 255, 0.9);
+    padding: 20px;
+    border-radius: 3px;
+    text-align: center;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
+    z-index: 1000;
+}
+
+.message-box h1 {
+    font-size: 40px;
+    color: #776e65;
+    margin-bottom: 10px;
+}
+
+.message-box p {
+    color: #776e65;
+    font-size: 20px;
+}
+
+@media (max-width: 600px) {
+    .game-container {
+        width: 100%;
+        max-width: 100vw;
+        padding: 10px;
+        box-sizing: border-box;
+    }
+    
+    .grid-container {
+        width: 100%;
+        max-width: 100%;
+        padding: 10px;
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        grid-template-rows: repeat(4, 1fr);
+        gap: 2vw;
+        box-sizing: border-box;
+    }
+    
+    .grid-cell {
+        aspect-ratio: 1 / 1;
+        min-width: 0;
+        min-height: 0;
+        max-width: none;
+        max-height: none;
+    }
+    
+    .tile {
+        font-size: 5vw;
+    }
+}

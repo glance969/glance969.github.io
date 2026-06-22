@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>大方棋</title>
+    <script>
+        // 窄屏手机：使用实际可视高度而不是100vh
+        (function() {
+            const aspectRatio = window.innerWidth / window.innerHeight;
+            if (aspectRatio < 10/19) {
+                const setContainerHeight = () => {
+                    // 等DOM加载
+                    const container = document.querySelector('.container');
+                    if (container) {
+                        container.style.minHeight = window.innerHeight + 'px';
+                        container.style.maxHeight = window.innerHeight + 'px';
+                    } else {
+                        requestAnimationFrame(setContainerHeight);
+                    }
+                };
+
+                const fixOverlayPanel = () => {
+                    // 强制设置遮罩层面板宽度
+                    const panels = document.querySelectorAll('.overlay-panel');
+                    panels.forEach(panel => {
+                        panel.style.width = '100vw';
+                        panel.style.maxWidth = '100vw';
+                        panel.style.borderRadius = '0';
+                        panel.style.margin = '0';
+                        panel.style.paddingLeft = '16px';
+                        panel.style.paddingRight = '16px';
+                    });
+                };
+
+                if (document.readyState === 'loading') {
+                    document.addEventListener('DOMContentLoaded', () => {
+                        setContainerHeight();
+                        fixOverlayPanel();
+                    });
+                } else {
+                    setContainerHeight();
+                    fixOverlayPanel();
+                }
+            }
+        })();
+    </script>
+    <link rel="stylesheet" href="css/app.css?v=12">
+    <link rel="stylesheet" href="css/game.css?v=16">
+</head>
+
+<body>
+    <div class="container">
+        <!-- 状态栏 -->
+        <div class="game-status">
+            <span class="status-text" id="status-text"></span>
+            <span class="extra-moves" id="extra-moves" style="display:none"></span>
+        </div>
+
+        <!-- 黑子棋盒 -->
+        <div class="player-box">
+            <button class="undo-button" id="black-action-btn" data-color="black">悔　　棋</button>
+            <div class="arrow-button" id="black-arrow"><span>-&gt;</span></div>
+            <div class="piece-box black-box">
+                <div class="piece black"></div>
+                <span class="piece-count">x <span id="black-count">0</span></span>
+            </div>
+            <button class="ai-setting-button" id="black-setting-btn" data-color="black">设置黑方</button>
+        </div>
+
+        <!-- 棋盘 -->
+        <div class="board-container">
+            <button class="floating-start-button" id="start-button"></button>
+            <div class="board-overlay" id="board-overlay"></div>
+            <div class="board" id="board">
+                <div class="horizontal-lines" id="h-lines"></div>
+                <div class="vertical-lines" id="v-lines"></div>
+                <!-- 交叉点与棋子由 render.js 注入 -->
+            </div>
+        </div>
+
+        <!-- 白子棋盒 -->
+        <div class="player-box">
+            <button class="undo-button" id="white-action-btn" data-color="white">悔　　棋</button>
+            <div class="arrow-button" id="white-arrow"><span>-&gt;</span></div>
+            <div class="piece-box white-box">
+                <div class="piece white"></div>
+                <span class="piece-count">x <span id="white-count">0</span></span>
+            </div>
+            <button class="ai-setting-button" id="white-setting-btn" data-color="white">设置白方</button>
+        </div>
+
+        <!-- 控制区 -->
+        <div class="controls">
+            <button class="control-button" id="restart-button" style="display:none">重新开始</button>
+            <div class="timer" id="timer" style="display:none"><span id="timer-text">00:00</span></div>
+            <button class="control-button" id="rules-button">游戏规则</button>
+        </div>
+    </div>
+
+    <!-- 规则浮层 -->
+    <div class="overlay-mask" id="rules-overlay">
+        <div class="overlay-panel">
+            <div class="overlay-title">游戏规则</div>
+            <div class="overlay-body" id="rules-list"></div>
+            <div class="overlay-footer">
+                <button id="rules-close">返回游戏</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- 设置浮层 -->
+    <div class="overlay-mask" id="settings-overlay">
+        <div class="overlay-panel">
+            <div class="overlay-title" id="settings-title">设置</div>
+            <div class="overlay-body">
+                <div class="form-item">
+                    <span class="form-label">选择玩家类型:</span>
+                    <div class="radio-row">
+                        <label><input type="radio" name="playerType" id="pt-self" value="self"> 自己</label>
+                        <label><input type="radio" name="playerType" id="pt-local" value="local"> 本机</label>
+                    </div>
+                </div>
+                <div class="form-item" id="difficulty-group">
+                    <span class="form-label">选择难度:</span>
+                    <div class="radio-row">
+                        <label><input type="radio" name="difficulty" id="diff-easy" value="easy"> 容易</label>
+                        <label><input type="radio" name="difficulty" id="diff-medium" value="medium"> 中等</label>
+                        <label><input type="radio" name="difficulty" id="diff-hard" value="hard"> 困难</label>
+                    </div>
+                </div>
+            </div>
+            <div class="overlay-footer">
+                <button class="secondary" id="settings-close">取消</button>
+                <button id="settings-save">保存设置</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- 经典脚本按依赖顺序加载（file:// 下不能用 ES module） -->
+    <script src="js/platform.js"></script>
+    <script src="js/gameConstants.js"></script>
+    <script src="js/boardUtils.js"></script>
+    <script src="js/cacheManager.js"></script>
+    <script src="js/formationChecker.js"></script>
+    <script src="js/validationUtils.js"></script>
+    <script src="js/historyUtils.js"></script>
+    <script src="js/playerConfigManager.js"></script>
+    <script src="js/positionUtils.js"></script>
+    <script src="js/aiUtils.js"></script>
+    <script src="js/render.js"></script>
+    <script src="js/game.js"></script>
+</body>
+
+</html>

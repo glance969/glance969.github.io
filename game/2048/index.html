@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>2048 Game</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="game-container">
+        <div class="score-container">
+            <div class="score-label">Score</div>
+            <div id="score">0</div>
+        </div>
+        <div class="grid-container">
+            <div class="grid-cell"></div>
+            <div class="grid-cell"></div>
+            <div class="grid-cell"></div>
+            <div class="grid-cell"></div>
+            <div class="grid-cell"></div>
+            <div class="grid-cell"></div>
+            <div class="grid-cell"></div>
+            <div class="grid-cell"></div>
+            <div class="grid-cell"></div>
+            <div class="grid-cell"></div>
+            <div class="grid-cell"></div>
+            <div class="grid-cell"></div>
+            <div class="grid-cell"></div>
+            <div class="grid-cell"></div>
+            <div class="grid-cell"></div>
+            <div class="grid-cell"></div>
+        </div>
+        <button id="restart-button">New Game</button>
+    </div>
+    <div id="message-box" class="message-box" style="display:none;">
+        <h1 id="message-title">Game Over!</h1>
+        <p id="message-content">Your final score: <span id="final-score">0</span></p>
+        <button id="close-message">New Game</button>
+    </div>
+    <div class="controls" id="controls-text">
+        <p>操作说明：使用 <b>↑ ↓ ← →</b> 方向键移动方块，合并相同数字。点击 <b>New Game</b> 可重新开始。</p>
+    </div>
+<!--     <div id="screen-info" style="position:fixed;bottom:0;right:0;z-index:99999;background:rgba(0,0,0,0.7);color:#fff;padding:4px 10px;font-size:13px;border-radius:6px 0 0 0;pointer-events:none;">
+        屏幕尺寸：<span id="screen-size"></span>
+    </div> -->
+    <script>
+    // 根据设备类型切换操作说明
+    if (/Mobi|Android|iPhone|iPad|iPod|Mobile/i.test(navigator.userAgent)) {
+        document.getElementById('controls-text').innerHTML = '<p>操作说明：<b>滑动屏幕</b>移动方块，合并相同数字。点击 <b>New Game</b> 可重新开始。</p>';
+    }
+    // 屏幕尺寸显示
+    function updateScreenSize() {
+        var w = window.innerWidth;
+        var h = window.innerHeight;
+        document.getElementById('screen-size').textContent = w + ' x ' + h + ' px';
+    }
+    window.addEventListener('resize', updateScreenSize);
+    updateScreenSize();
+    </script>
+    <script src="game.js"></script>
+</body>
+</html>

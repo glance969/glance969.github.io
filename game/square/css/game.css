@@ -1,0 +1,258 @@
+/* 游戏界面样式（由 index.wxss/app.wxss 转换，rpx≈0.5px；棋盘网格用百分比，随尺寸自适应） */
+
+/* 顶部状态栏 */
+.game-status {
+    width: 100%;
+    text-align: center;
+    background: #f5f5f5;
+    padding: 9px 12px;
+}
+.status-text { font-size: 16px; color: #333; }
+.extra-moves { font-size: 14px; color: #666; margin-left: 10px; }
+
+/* 棋手行 */
+.player-box {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    position: relative;
+    gap: 10px;
+    margin: 6px 0;
+    min-height: 46px;
+}
+
+/* 左侧（悔棋/难度）与右侧（设置）按钮 */
+.undo-button {
+    position: absolute;
+    left: 0;
+    padding: 5px;
+    border-radius: 5px;
+    font-size: 14px;
+    width: 100px;
+    border: 1px solid #ccc;
+}
+.ai-setting-button {
+    position: absolute;
+    right: 0;
+    padding: 5px;
+    font-size: 14px;
+    border-radius: 5px;
+    width: 100px;
+    border: 1px solid #ccc;
+}
+
+.piece-box {
+    width: 75px;
+    height: 45px;
+    border-radius: 50px;
+    border: 1px solid #000;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    margin: 0 10px;
+    position: relative;
+}
+.piece-box .piece {
+    width: 30px;
+    height: 30px;
+    position: static;
+    transform: none;
+}
+.piece-box .piece-count { font-size: 12px; color: #666; }
+.black-box { background: #ffffff; }
+.white-box { background: #e0e0e0; }
+
+/* 棋盘容器 */
+.board-container {
+    position: relative;
+    width: 100%;
+    margin: 0 auto;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/* 棋盘 */
+.board {
+    --board: min(90vmin, 360px);
+    width: var(--board);
+    height: var(--board);
+    position: relative;
+    background: #f5f5f5;
+    margin: 16px 0;
+    touch-action: none; /* 让指针拖动顺畅，禁用默认手势 */
+    z-index: 1;
+}
+
+/* 未开始时的蒙版 */
+.board-overlay {
+    position: absolute;
+    top: -5%;
+    bottom: -5%;
+    left: -5%;
+    right: -5%;
+    background: rgba(245, 245, 245, 0.85);
+    z-index: 2;
+    pointer-events: none;
+}
+
+.horizontal-lines, .vertical-lines {
+    position: absolute;
+    inset: 0;
+}
+.horizontal-line {
+    position: absolute;
+    width: 100%;
+    height: 1px;
+    background: #000;
+}
+.vertical-line {
+    position: absolute;
+    height: 100%;
+    width: 1px;
+    background: #000;
+}
+
+/* 交叉点：作为棋子的居中锚点（按百分比绝对定位） */
+.intersection {
+    position: absolute;
+    transform: translate(-50%, -50%);
+    width: calc(var(--board) * 0.14);
+    height: calc(var(--board) * 0.14);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 3;
+}
+
+.piece {
+    width: calc(var(--board) * 0.1);
+    height: calc(var(--board) * 0.1);
+    border-radius: 50%;
+    z-index: 3;
+}
+.piece.black { background: #000000; }
+.piece.white { background: #ffffff; border: 1px solid #000000; }
+
+/* 阵型棋子黄框（外部边框，不影响棋子尺寸） */
+.piece.formation-border {
+    box-shadow: 0 0 0 3px #ffcc00;
+}
+
+/* 白色棋子形成阵型时，去掉原有的黑色边框，黄色边框改为1px（和原黑色边框一样粗） */
+.piece.white.formation-border {
+    border: none;
+    box-shadow: 0 0 0 1px #ffcc00;
+}
+
+/* 闪烁动画（落子/移动/吃子后，结束触发 onAnimationEnd 推进流程） */
+.flash { animation: flash 1s 3; }
+@keyframes flash {
+    0% { opacity: 1; }
+    50% { opacity: 0.3; }
+    100% { opacity: 1; }
+}
+
+/* 箭头指示当前行动方 */
+.arrow-button {
+    width: 35px;
+    height: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    position: absolute;
+    left: calc(50% - 70px);
+    color: #000;
+    font-weight: bolder;
+    font-size: larger;
+}
+.arrow-button.active { opacity: 1; }
+
+/* 悬浮开始按钮（CSS 播放三角） */
+.floating-start-button {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 65px;
+    height: 65px;
+    background: #ffffff;
+    border: 3px solid #000000;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 4;
+    padding: 0;
+}
+.floating-start-button::before {
+    content: '';
+    width: 0;
+    height: 0;
+    border-style: solid;
+    border-width: 15px 0 15px 22px;
+    border-color: transparent transparent transparent #000000;
+    margin-left: 4px;
+}
+
+/* 底部控制区 */
+.controls {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 15px;
+    width: 100%;
+    padding: 6px 10px 4px;
+}
+.control-button {
+    padding: 6px 14px;
+    font-size: 14px;
+    border-radius: 4px;
+    border: 1px solid #ccc;
+    white-space: nowrap;
+    transition: all 0.2s ease;
+}
+.control-button:active { transform: translateY(1px); opacity: 0.8; }
+.timer {
+    min-width: 60px;
+    text-align: center;
+    padding: 6px 12px;
+    font-size: 14px;
+    color: #333;
+}
+
+/* 规则浮层条目 */
+.rule-item {
+    margin-bottom: 10px;
+    font-size: 14px;
+    line-height: 1.6;
+    color: #333;
+}
+
+/* 设置浮层表单 */
+.form-item { margin-bottom: 16px; }
+.form-item > .form-label { display: block; margin-bottom: 8px; font-size: 14px; color: #333; font-weight: bold; }
+.radio-row { display: flex; flex-wrap: wrap; gap: 16px; }
+.radio-row label { font-size: 14px; color: #333; display: inline-flex; align-items: center; gap: 4px; cursor: pointer; }
+
+/* 窄屏手机优化（高宽比 > 1.9）：适度缩小间距 */
+@media (max-aspect-ratio: 10/19) {
+    .game-status {
+        padding: 6px 10px;
+    }
+
+    .player-box {
+        margin: 4px 0;
+    }
+
+    .board {
+        margin: 10px 0;
+    }
+
+    .controls {
+        padding: 4px 10px;
+    }
+}

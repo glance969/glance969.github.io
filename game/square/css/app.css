@@ -1,0 +1,141 @@
+/* 基础样式：复位 + 居中"手机框"容器 + toast + 模态框 + 浮层（H5 版） */
+* { box-sizing: border-box; }
+html, body { margin: 0; padding: 0; height: 100%; width: 100%; }
+body {
+    font-family: -apple-system, BlinkMacSystemFont, "PingFang SC", "Microsoft YaHei", "Helvetica Neue", Arial, sans-serif;
+    background: #e8e8e8;
+    display: flex;
+    justify-content: center;
+    -webkit-user-select: none;
+    user-select: none;
+    -webkit-tap-highlight-color: transparent;
+}
+
+.container {
+    width: 100%;
+    max-width: 480px;
+    min-height: 100vh; /* 回退方案：旧浏览器 */
+    min-height: 100dvh; /* 动态视口高度：排除浏览器UI（地址栏、工具栏） */
+    background: #ffffff;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px;
+    overflow: hidden;
+}
+
+/* 窄屏手机优化（高宽比 > 1.9）：适度缩小padding */
+@media (max-aspect-ratio: 10/19) {
+    .container {
+        padding: 6px !important;
+    }
+}
+
+button {
+    font-family: inherit;
+    cursor: pointer;
+    background: #f0f0f0;
+    color: #333;
+}
+
+/* ---- Toast（替代 wx.showToast）---- */
+.toast {
+    position: fixed;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    background: rgba(0, 0, 0, 0.75);
+    color: #fff;
+    padding: 10px 16px;
+    border-radius: 6px;
+    font-size: 14px;
+    z-index: 1000;
+    opacity: 0;
+    transition: opacity 0.2s ease;
+    pointer-events: none;
+    max-width: 80%;
+    text-align: center;
+    line-height: 1.4;
+}
+.toast.show { opacity: 1; }
+
+/* ---- 模态框（替代 wx.showModal）---- */
+.modal-mask {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.5);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1001;
+}
+.modal-box {
+    background: #fff;
+    border-radius: 10px;
+    min-width: 260px;
+    max-width: 80%;
+    padding: 20px;
+    text-align: center;
+    box-shadow: 0 6px 24px rgba(0, 0, 0, 0.25);
+}
+.modal-title { font-size: 16px; font-weight: bold; margin-bottom: 10px; color: #222; }
+.modal-content { font-size: 14px; color: #333; white-space: pre-wrap; margin-bottom: 16px; text-align: left; }
+.modal-buttons { display: flex; gap: 12px; justify-content: center; }
+.modal-btn { padding: 8px 20px; border: none; border-radius: 6px; font-size: 14px; }
+.modal-confirm { background: #4CAF50; color: #fff; }
+.modal-cancel { background: #e0e0e0; color: #333; }
+
+/* ---- 通用浮层（规则 / 设置）---- */
+.overlay-mask {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.45);
+    display: none;
+    align-items: center;
+    justify-content: center;
+    z-index: 1002;
+}
+.overlay-panel {
+    background: #fff;
+    border-radius: 10px;
+    width: 90%;
+    max-width: 440px;
+    max-height: 85vh;
+    display: flex;
+    flex-direction: column;
+    padding: 16px;
+    box-shadow: 0 6px 24px rgba(0, 0, 0, 0.25);
+}
+.overlay-title { font-size: 18px; font-weight: bold; text-align: center; margin-bottom: 12px; color: #222; }
+.overlay-body { flex: 1; overflow-y: auto; }
+.overlay-footer { margin-top: 14px; display: flex; gap: 12px; }
+.overlay-footer button {
+    flex: 1;
+    padding: 10px 0;
+    font-size: 15px;
+    border: none;
+    border-radius: 6px;
+    color: #fff;
+    background: #4CAF50;
+}
+.overlay-footer .secondary { background: #9e9e9e; }
+
+/* 小屏幕优化：遮罩层面板宽度100%，左右无边距 */
+@media (max-height: 768px) {
+    .overlay-panel {
+        width: 100%;
+        max-width: 100%;
+        border-radius: 0;
+    }
+}
+
+/* 窄屏手机优化：遮罩层面板宽度100%，确保完全覆盖 */
+@media (max-aspect-ratio: 10/19) {
+    .overlay-panel {
+        width: 100% !important;
+        max-width: 100% !important;
+        border-radius: 0 !important;
+        margin: 0 !important;
+    }
+}

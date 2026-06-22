@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>游戏合集 - Game Collection</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+            background: #F7F5F1;
+            color: #1E2227;
+            line-height: 1.6;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 3rem 1.5rem;
+        }
+
+        .container {
+            max-width: 800px;
+            width: 100%;
+        }
+
+        h1 {
+            font-family: 'Playfair Display', Georgia, serif;
+            font-size: 3rem;
+            font-weight: 600;
+            text-align: center;
+            margin-bottom: 1rem;
+            letter-spacing: -0.02em;
+        }
+
+        .subtitle {
+            text-align: center;
+            color: #6B7077;
+            font-size: 1.125rem;
+            margin-bottom: 3rem;
+        }
+
+        .games-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 3rem;
+        }
+
+        .game-card {
+            background: #FFFFFF;
+            border: 1px solid #E7E3DA;
+            border-radius: 12px;
+            padding: 2rem;
+            text-decoration: none;
+            color: inherit;
+            transition: all 0.2s ease;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+        }
+
+        .game-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
+            border-color: #3C5A78;
+        }
+
+        .game-icon {
+            width: 64px;
+            height: 64px;
+            background: #F7F5F1;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+            margin-bottom: 1rem;
+        }
+
+        .game-title {
+            font-size: 1.25rem;
+            font-weight: 500;
+            margin-bottom: 0.5rem;
+            color: #1E2227;
+        }
+
+        .game-description {
+            color: #6B7077;
+            font-size: 0.875rem;
+            line-height: 1.5;
+        }
+
+        .footer {
+            text-align: center;
+            color: #6B7077;
+            font-size: 0.875rem;
+            margin-top: auto;
+            padding-top: 3rem;
+        }
+
+        @media (max-width: 640px) {
+            h1 {
+                font-size: 2rem;
+            }
+
+            .games-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>游戏合集</h1>
+        <p class="subtitle">精选的网页小游戏,尽情享受</p>
+
+        <div class="games-grid">
+            <a href="game/2048/" class="game-card">
+                <div class="game-icon">🎮</div>
+                <h2 class="game-title">2048</h2>
+                <p class="game-description">经典数字合成益智游戏,滑动方块合并相同数字</p>
+            </a>
+
+            <a href="game/sodoku/" class="game-card">
+                <div class="game-icon">🧩</div>
+                <h2 class="game-title">数独</h2>
+                <p class="game-description">挑战你的逻辑思维,在9×9网格中填充数字</p>
+            </a>
+
+            <a href="game/square/" class="game-card">
+                <div class="game-icon">⬛</div>
+                <h2 class="game-title">Square</h2>
+                <p class="game-description">有趣的方块游戏,考验你的策略和反应</p>
+            </a>
+        </div>
+    </div>
+
+    <div class="footer">
+        <p>© 2026 游戏合集 | 享受游戏时光</p>
+    </div>
+</body>
+</html>

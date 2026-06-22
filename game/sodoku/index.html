@@ -1,0 +1,62 @@
+﻿<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>智能数独生成器 (规则增强版)</title>
+    <link rel="stylesheet" href="sudoku.css">
+</head>
+
+<body>
+
+    <!-- Toast 提示容器 -->
+    <div class="toast-container" id="toast-container"></div>
+
+    <!-- Loading 遮罩层 -->
+    <div class="loading-overlay" id="loading-overlay">
+        <div class="loading-content">
+            <div class="spinner"></div>
+            <div class="loading-text" id="loading-text">正在生成题目...</div>
+        </div>
+    </div>
+
+    <h1>数独游戏 (3/4/9宫格)</h1>
+
+    <div class="controls">
+        <div class="control-group">
+            <label>类型:</label>
+            <select id="size-select">
+                <option value="3">3宫格 (幼儿启蒙)</option>
+                <option value="4" selected>4宫格 (儿童进阶)</option>
+                <option value="9">9宫格 (标准益智)</option>
+            </select>
+        </div>
+
+        <div class="control-group">
+            <label>难度:</label>
+            <select id="diff-select">
+                <option value="easy">简单 (多提示)</option>
+                <option value="medium" selected>中等</option>
+                <option value="hard">困难 (少提示)</option>
+            </select>
+        </div>
+
+        <button onclick="initGame()">生成题目</button>
+        <button id="undo-btn" onclick="undo()" title="撤销 (Ctrl+Z)" style="opacity: 0.5" disabled>↶ 撤销</button>
+        <button id="redo-btn" onclick="redo()" title="重做 (Ctrl+Y)" style="opacity: 0.5" disabled>↷ 重做</button>
+        <button class="hint-btn" onclick="showHint()">💡 提示</button>
+        <button onclick="checkGame()">✓ 检查</button>
+        <button class="print-btn" onclick="handlePrint()">打印A4练习题</button>
+    </div>
+
+    <div id="game-area">
+        <div id="board" class="sudoku-board"></div>
+    </div>
+
+    <div id="print-section"></div>
+
+    <script src="sudoku.js"></script>
+</body>
+
+</html>
